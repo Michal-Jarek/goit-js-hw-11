@@ -1,69 +1,18 @@
-import axios from 'axios';
+
+import { gallerySet } from './js/gallerySet';
+import { fetchPicture } from './js/fetchPicture';
 
 const gallery = document.querySelector('.gallery');
-let page = 1;
+const searchForm = document.querySelector('.search-form');
+const searchedTxt = document.querySelector('[name="searchQuery"]');
+let page;
 
-const getPicture = (keyWord, page) => {
-  return axios
-    .get(`https://pixabay.com/api?`, {
-      params: {
-        key: '30058964-66debb9f20d9f056f9054d1c1',
-        image_type: 'photo',
-        orientation: 'horizontal',
-        per_page: 40,
-        page: page,
-        q: keyWord,
-      },
-    })
-    .then(response => response.data.hits)
-    .catch(error => console.log(error));
-};
-
-const gallerySet = data => {
+searchForm.lastElementChild.addEventListener('click', async e => {
   gallery.innerHTML = '';
-  console.log(data);
-  const markup = data 
-    .map(
-      ({
-        webformatURL,
-        largeImageURL,
-        tags,
-        likes,
-        views,
-        comments,
-        downloads,
-      }) => {
-        return `
-        <div class="photo-card">
-  <img src="" alt="" loading="lazy" />
-  <div class="info">
-    <p class="info-item">
-      <b>Likes</b>
-    </p>
-    <p class="info-item">
-      <b>Views</b>
-    </p>
-    <p class="info-item">
-      <b>Comments</b>
-    </p>
-    <p class="info-item">
-      <b>Downloads</b>
-    </p>
-  </div>
-</div>
-`;
-      }
-    )
-    .join('');
-  return gallery.insertAdjacentHTML('beforeend', markup);
-};
+  e.preventDefault();
+  page = 1; 
+  let objectGallery = await fetchPicture(searchedTxt.value, page);
+  gallery.insertAdjacentHTML('beforeend', gallerySet(objectGallery));
+});
 
-const cuzamenDoKupy = async () => {
-  let zmienna = await getPicture('boobs', 1);
-  console.log(zmienna);
-  gallerySet(zmienna);
-};
-cuzamenDoKupy();
 
-// console.log(getPicture('boobs', 1));
-// gallerySet(getPicture('boobs',1))
