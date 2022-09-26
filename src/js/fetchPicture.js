@@ -1,9 +1,9 @@
 import axios from 'axios';
-axios.defaults.baseURL = 'https://pixabay.com/';
+axios.defaults.baseURL = 'https://pixabay.com/api/';
 
 const fetchPicture = (keyWord, page) => {
   return axios
-    .get('api?', {
+    .get('?', {
       params: {
         key: '30058964-66debb9f20d9f056f9054d1c1',
         image_type: 'photo',
@@ -15,6 +15,9 @@ const fetchPicture = (keyWord, page) => {
       },
     })
     .then(response => response.data.hits)
-    .catch(error => console.log(error));
+    .catch(error => {
+      console.log(error);
+      //   return new error();
+    });
 };
 export { fetchPicture };
