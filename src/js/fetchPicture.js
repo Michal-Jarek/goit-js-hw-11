@@ -1,8 +1,11 @@
 import axios from 'axios';
+axios.defaults.proxy = {
+  protocol: 'https',
+};
 
 const fetchPicture = (keyWord, page) => {
   return axios
-    .get(`https://pixabay.com/api?`, {
+    .get('https://pixabay.com/api?', {
       params: {
         key: '30058964-66debb9f20d9f056f9054d1c1',
         image_type: 'photo',
