@@ -12,7 +12,9 @@ const gallerySet = data => {
       }) => {
         return `
         <div class="photo-card">
+  <a href="${largeImageURL}">
   <img class="photo-card__image" src="${webformatURL}" alt="${tags}" width="100px" loading="lazy" />
+  </a>
   <div class="info">
     <p class="info-item">
       <b>Likes</b>
@@ -36,7 +38,7 @@ const gallerySet = data => {
       }
     )
     .join('');
-  return  markup;
+  return markup;
 };
 
-export {gallerySet}
+export { gallerySet };

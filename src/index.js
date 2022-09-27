@@ -2,15 +2,21 @@ import { gallerySet } from './js/gallerySet';
 import { fetchPicture } from './js/fetchPicture';
 import Notiflix from 'notiflix';
 import { toInteger } from 'lodash';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 function toggleBtn() {
-  loadMoreBtn.classList.toggle('is-hidden');
+  loadMoreBtn.parentElement.classList.toggle('is-hidden');
 }
 
 const gallery = document.querySelector('.gallery');
 const searchForm = document.querySelector('.search-form');
 const searchedTxt = document.querySelector('[name="searchQuery"]');
 const loadMoreBtn = document.querySelector('.load-more');
+const simpleGallery = new SimpleLightbox('.gallery a', {
+  captionsData: 'ALT',
+  captionDelay: 250,
+});
 let page;
 let objectGallery;
 const perPage = 40;
@@ -18,7 +24,7 @@ let maxPages;
 console.log(maxPages);
 
 searchForm.lastElementChild.addEventListener('click', async e => {
-  if (!loadMoreBtn.classList.contains('is-hidden')) toggleBtn();
+  if (!loadMoreBtn.parentElement.classList.contains('is-hidden')) toggleBtn();
   gallery.innerHTML = '';
   e.preventDefault();
   page = 1;
@@ -33,6 +39,7 @@ searchForm.lastElementChild.addEventListener('click', async e => {
   );
   maxPages = toInteger(objectGallery.totalHits / perPage) + 1;
   gallery.insertAdjacentHTML('beforeend', gallerySet(objectGallery.hits));
+  simpleGallery.refresh();
   toggleBtn();
 });
 
@@ -44,7 +51,16 @@ loadMoreBtn.addEventListener('click', async () => {
     );
   }
   page++;
-  console.log(page);
-  objectGallery = await fetchPicture(searchedTxt.value, page);
+  objectGallery = await fetchPicture(searchedTxt.value, page, perPage);
   gallery.insertAdjacentHTML('beforeend', gallerySet(objectGallery.hits));
+  simpleGallery.refresh();
+});
+
+const { height: cardHeight } = document
+  .querySelector('.gallery')
+  .firstElementChild.getBoundingClientRect();
+
+window.scrollBy({
+  top: cardHeight * 2,
+  behavior: 'smooth',
 });

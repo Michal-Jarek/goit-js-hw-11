@@ -1,3 +1,8 @@
+#Junk
+.DS_Store
+.vscode/
+.idea/
+
 # Logs
 logs
 *.log
@@ -73,7 +78,7 @@ typings/
 .env.test
 
 # parcel-bundler cache (https://parceljs.org/)
-.cache
+.parcel-cache
 
 # Next.js build output
 .next
@@ -102,3 +107,8 @@ dist
 
 # TernJS port file
 .tern-port
+.parcel-cache/fb9a73cd872c33aa
+.parcel-cache/data.mdb
+.parcel-cache/d0cad7a85d25c72c.txt
+.parcel-cache/bd80eeaad5f7aeb5
+.parcel-cache/a15819d72b966d77
